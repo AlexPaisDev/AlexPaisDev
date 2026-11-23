@@ -23,8 +23,8 @@ by pixel by a plain Node.js script, with no image assets and no dependencies.
 | Level and XP | One XP per contribution, ever. Each level costs 20 XP more than the last |
 | Stats | Public repositories, contributions in the last year, streaks, followers, stars and visitors |
 | Quest log | My most recently updated public repositories |
-| **Inventory** | The technologies I work with. The number on a language is how many of my public repositories use it |
-| **Achievements** | Medals that go from bronze to silver to gold as the real numbers grow. The bar under each one is the progress to its next tier |
+| **Inventory** | The technologies on my CV, grouped by row: games and languages; web, systems and tools; data and cloud. The number on an item is how many of my public repositories use it |
+| **Achievements** | Medals that go from bronze to silver to gold as the real numbers grow. The bar under each one is the progress to its next tier, and the line below the medals shows the closest one |
 | Tooltip | The cursor walks the inventory and the medals, and the tooltip explains each one |
 | The guardian | Reports on the weather and my activity, and greets visitors |
 
@@ -70,7 +70,7 @@ node avalon/generate.mjs --data gh.json --offline --visitors 1234 \
 |---|---|
 | `city`, `lat`, `lon`, `timezone` | The place whose sky and weather the isle shows |
 | `name`, `title`, `region` | The character card |
-| `inventory` | Up to 18 items, in order. Available: `unity`, `love`, `csharp`, `c`, `java`, `python`, `lua`, `javascript`, `php`, `html`, `css`, `bootstrap`, `mysql`, `git`, `linux`, `vscode`, `discord`, `linkedin` (new ones go in `src/inventory.mjs`) |
+| `inventory` | Up to 27 items (three rows of nine), in order. Available: `unity`, `csharp`, `c`, `java`, `python`, `sql`, `javascript`, `php`, `scala`, `html`, `css`, `mysql`, `linux`, `docker`, `nodered`, `xcode`, `git`, `vscode`, `databricks`, `azure`, `fabric`, `powerbi`, `sharepoint`, `mongodb`, `redis`, `confluence`, `github`, `love`, `lua`, `bootstrap`, `discord`, `linkedin` (new ones go in `src/inventory.mjs`) |
 | `views` | The username of the views counter. It must match the counter pixel in the profile README |
 | `ignoreLanguages` | Languages to leave off the banners |
 

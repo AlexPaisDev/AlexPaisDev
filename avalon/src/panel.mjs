@@ -12,20 +12,20 @@ import { wrap } from './world.mjs';
 import { W, SH, langAbbr } from './scene.mjs';
 
 const TOP = SH + 2;
+const INV = { x: 9, cols: 9, rows: 3 };
+const ACH = { x: 167, cols: 4 };
+const PITCH = 16;
 // vertical layout
+const GRID_Y = TOP + 79, GRID_END = GRID_Y + INV.rows * PITCH;
 const L = {
   name: TOP + 5, sub: TOP + 16, div1: TOP + 22,
   rows: TOP + 26, div2: TOP + 68,
-  sec: TOP + 72, grid: TOP + 79,
-  tip: TOP + 115,
-  box: TOP + 137,
+  sec: TOP + 72, grid: GRID_Y,
+  tip: GRID_END + 4,
+  box: GRID_END + 26,
 };
 const BOX_H = 27;
 export const H = L.box + BOX_H + 5;
-
-const INV = { x: 9, cols: 9, rows: 2 };
-const ACH = { x: 167, cols: 4 };
-const PITCH = 16;
 const DWELL = 2; // seconds the cursor rests on each slot
 
 const ID = (k) => k;
@@ -217,6 +217,23 @@ function medals(r, achs) {
     r.rect(px, L.grid + 25, 3, 3, TIER_COLORS[t].face);
     r.set(px, L.grid + 25, TIER_COLORS[t].hi);
   });
+
+  // under the medals (when the inventory is taller): the closest next tier
+  const y = L.grid + rows * PITCH + 4, x1 = W - 9;
+  if (y + 9 > GRID_END) return;
+  const next = achs.filter((a) => a.known && a.next).sort((a, b) => b.progress - a.progress)[0];
+  if (!next) { text(r, 'ALL ACHIEVEMENTS MAXED', ACH.x, y, { color: GOLD }); return; }
+  // NEXT [pip in the tier's colour] NAME ........ value/goal
+  let nx = ACH.x + text(r, 'NEXT', ACH.x, y, { color: INK3 }) + 4;
+  const tc = TIER_COLORS[next.tier + 1];
+  r.rect(nx, y + 1, 3, 3, tc.face); r.set(nx, y + 1, tc.hi);
+  nx += 7;
+  text(r, next.name, nx, y, { color: GOLD });
+  const short = (n) => (n >= 1000 ? `${+(n / 1000).toFixed(1)}K` : String(n));
+  const prog = `${short(next.value)}/${short(next.next)}`;
+  text(r, prog, x1 - measure(prog), y, { color: INK2 });
+  r.hline(ACH.x, x1, y + 7, '#2a2a58');
+  r.hline(ACH.x, ACH.x + Math.round((x1 - ACH.x) * Math.min(1, next.progress)), y + 7, '#62e6f0');
 }
 
 const TIP = { x0: 6, x1: W - 7 };

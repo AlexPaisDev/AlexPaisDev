@@ -10,23 +10,8 @@
   "ignoreLanguages": [],
   "views": "Ninjagamedev",
   "inventory": [
-    "unity",
-    "love",
-    "csharp",
-    "c",
-    "java",
-    "python",
-    "lua",
-    "javascript",
-    "php",
-    "html",
-    "css",
-    "bootstrap",
-    "mysql",
-    "git",
-    "linux",
-    "vscode",
-    "discord",
-    "linkedin"
+    "unity", "csharp", "c", "java", "python", "sql", "javascript", "php", "scala",
+    "html", "css", "mysql", "linux", "docker", "nodered", "xcode", "git", "vscode",
+    "databricks", "azure", "fabric", "powerbi", "sharepoint", "mongodb", "redis", "confluence", "github"
   ]
 }
