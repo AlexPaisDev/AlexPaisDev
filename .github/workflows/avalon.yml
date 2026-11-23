@@ -30,8 +30,13 @@ jobs:
         with:
           node-version: 22
 
+      # The last published state carries the visitor tally between runs.
+      - name: Recall the last watch
+        run: |
+          git fetch -q --depth=1 origin output && git show FETCH_HEAD:state.json > "$RUNNER_TEMP/prev-state.json" || echo "No earlier watch to recall."
+
       - name: Draw the isle
-        run: node avalon/generate.mjs --out dist
+        run: node avalon/generate.mjs --out dist --prev "$RUNNER_TEMP/prev-state.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

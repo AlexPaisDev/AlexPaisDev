@@ -127,17 +127,20 @@ const BIG = {
   '·': ['..', '..', '..', '##', '##', '..', '..'],
   '°': ['.##.', '#..#', '#..#', '.##.', '....', '....', '....'],
   '#': ['.#.#.', '.#.#.', '#####', '.#.#.', '#####', '.#.#.', '.#.#.'],
+  // the one accent worth keeping: LÖVE
+  'Ö': ['.#.#.', '.....', '.###.', '#...#', '#...#', '#...#', '.###.'],
 };
 
 const FONTS = { small: { glyphs: SMALL, h: 5 }, big: { glyphs: BIG, h: 7 } };
 
-/** Normalise: uppercase, strip accents (LÖVE -> LOVE), keep known symbols. */
+/** Normalise: uppercase, strip accents except Ö (drawn where a font has it), keep known symbols. */
 export function norm(str) {
-  return String(str).normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
+  return String(str).toUpperCase().replace(/Ö/g, '\u0001').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\u0001/g, 'Ö');
 }
 
 function glyph(font, ch) {
   const g = FONTS[font].glyphs;
+  if (ch === 'Ö' && !g[ch]) ch = 'O';
   return g[ch] || g['?'] || g[' '];
 }
 

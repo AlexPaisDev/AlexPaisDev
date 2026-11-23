@@ -7,17 +7,20 @@
 //   node avalon/generate.mjs --save-data gh.json  keep the fetched GitHub data
 //   node avalon/generate.mjs --at 2026-12-24T22:30:00Z --weather 61 --temp 9 --wind 25 --wind-dir 270 --cloud 80
 //                                                 preview another time or weather (WMO weather codes)
+//   node avalon/generate.mjs --prev state.json    the last published state.json (keeps the visitor count honest)
+//   node avalon/generate.mjs --visitors 1234      preview a visitor count without reading the counter
 //
 // GITHUB_TOKEN (or GH_TOKEN) must be set when fetching live GitHub data.
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { fetchGitHub, fetchWeather, computeStats } from './src/data.mjs';
+import { fetchGitHub, fetchWeather, fetchViews, computeStats } from './src/data.mjs';
 import { buildWorld, localParts } from './src/world.mjs';
 import { Composer } from './src/svg.mjs';
 import { drawScene, W } from './src/scene.mjs';
-import { drawPanel, H } from './src/panel.mjs';
+import { drawPanel, inventoryKeys, H } from './src/panel.mjs';
+import { ITEMS } from './src/inventory.mjs';
 
 function parseArgs(argv) {
   const a = {};
@@ -65,8 +68,25 @@ for (const [flag, key] of [['weather', 'code'], ['temp', 'temp'], ['wind', 'wind
   if (args[flag] !== undefined) weather = { ...(weather || {}), [key]: Number(args[flag]) };
 }
 
+// Visitors. Reading the counter counts as a visit, so every read is tallied
+// in state.json ("self") and taken off again. Offline runs reuse the last count.
+let prev = null;
+if (args.prev) {
+  try { prev = JSON.parse(await readFile(args.prev, 'utf8')); } catch { console.warn('No previous state; starting the visitor tally fresh.'); }
+}
+let views = prev?.views?.count != null ? { ...prev.views } : null;
+if (args.visitors !== undefined) views = { count: Number(args.visitors), self: 0 };
+else if (!args.offline && cfg.views) {
+  try {
+    const raw = await fetchViews(cfg.views);
+    const self = (prev?.views?.self ?? 0) + 1;
+    views = { count: Math.max(0, raw - self), raw, self };
+  } catch (e) { console.warn(`Visitor count unavailable (${e.message}); keeping the last one.`); }
+}
+
 const today = localParts(now, cfg.timezone).iso;
 const stats = computeStats(gh, { today, ignoreLanguages: cfg.ignoreLanguages, profileRepo: cfg.login });
+stats.views = views?.count ?? null;
 const world = buildWorld({ now, cfg, weather, stats, createdAt: gh.createdAt });
 world.grid = buildGrid(gh.days, today);
 
@@ -79,7 +99,8 @@ const temp = world.weather.temp == null ? '' : `, ${Math.round(world.weather.tem
 const title = `${cfg.name}: the isle of Avalon`;
 const desc = `Live pixel-art scene. It is ${phaseWords[world.phase]} in ${cfg.city} (${world.local.time}), ${world.weather.label.toLowerCase()}${temp}. `
   + `The rune wall shows ${stats.yearTotal} contributions in the last year. ${stats.repoCount} public repositories, `
-  + `${stats.followers} followers, level ${stats.level}. The guardian says: ${world.dialog.join(' ')}`;
+  + `${stats.followers} followers${stats.views == null ? '' : `, ${stats.views} visitors`}, level ${stats.level}. `
+  + `Inventory: ${inventoryKeys(cfg).map((k) => ITEMS[k].name).join(', ')}. The guardian says: ${world.dialog.join(' ')}`;
 const svg = c.toString({ title, desc });
 
 const out = path.resolve(args.out || 'dist');
@@ -90,6 +111,7 @@ await writeFile(path.join(out, 'state.json'), `${JSON.stringify({
   local: world.local, phase: world.phase, season: world.season, event: world.event,
   sun: world.sun, moon: { alt: world.moon.alt, az: world.moon.az, name: world.moon.name, illum: world.moon.illum },
   weather: world.weather, wind: world.wind, mood: world.mood, beacon: world.beacon, dialog: world.dialog,
-  stats: { ...stats, quests: stats.quests.map((q) => q.name), languages: stats.languages.slice(0, 6) },
+  views,
+  stats: { ...stats, quests: stats.quests.map((q) => q.name), languages: stats.languages.slice(0, 6), langRepos: undefined },
 }, null, 2)}\n`);
 console.log(`avalon.svg: ${(svg.length / 1024).toFixed(1)} KB · ${world.phase} · ${world.weather.label} · ${world.dialog.join(' / ')}`);

@@ -138,7 +138,12 @@ function dialogLines(w, cfg, stats, seed) {
   else if (s.sinceLast != null) act = [`${s.sinceLast} DAYS WITHOUT A RUNE. I STAND GUARD ALL THE SAME.`];
   else act = ['NO RUNES CARVED YET. THE WALL AWAITS ITS FIRST.'];
 
-  return [sub(pick(env, seed)), sub(pick(act, seed >>> 3))];
+  // the third line greets whoever is looking, with the real visitor count
+  const n = s.views == null ? null : Number(s.views).toLocaleString('en-US');
+  const greet = n == null ? ['WELCOME TO AVALON, TRAVELLER. MAKE YOURSELF AT HOME.']
+    : [`WELCOME, TRAVELLER! ${n} HAVE VISITED AVALON BEFORE YOU.`, `${n} TRAVELLERS HAVE FOUND THE ISLE. WELCOME, FRIEND!`];
+
+  return [sub(pick(env, seed)), sub(pick(act, seed >>> 3)), pick(greet, seed >>> 5)];
 }
 
 /** Word-wrap to lines of at most maxW pixels in the small font. */

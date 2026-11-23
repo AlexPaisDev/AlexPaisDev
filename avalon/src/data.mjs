@@ -103,6 +103,19 @@ export async function fetchWeather({ lat, lon, timezone }) {
   };
 }
 
+/**
+ * Profile views from the komarev counter. The README shows the same counter
+ * as an invisible pixel, which is what counts each visit. Reading the number
+ * here counts one view too, so the caller subtracts its own reads.
+ */
+export async function fetchViews(username) {
+  const res = await fetch(`https://komarev.com/ghpvc/?username=${encodeURIComponent(username)}&style=flat`, { headers: { 'User-Agent': UA } });
+  if (!res.ok) throw new Error(`view counter ${res.status}`);
+  const nums = [...(await res.text()).matchAll(/<text[^>]*>([\d.,\s]+)<\/text>/g)].map((m) => Number(m[1].replace(/\D/g, '')));
+  if (!nums.length) throw new Error('view counter: no number in the badge');
+  return nums.at(-1);
+}
+
 // Languages that say little about what someone writes (styles, build files).
 const NOISE = new Set(['CSS', 'SCSS', 'Less', 'Sass', 'Stylus', 'Makefile', 'CMake', 'Batchfile', 'Dockerfile',
   'PowerShell', 'Procfile', 'Roff', 'Jupyter Notebook', 'HLSL', 'ShaderLab', 'GLSL', 'Smarty', 'Twig', 'Hack']);
@@ -145,7 +158,13 @@ export function computeStats(gh, { today, ignoreLanguages = [], profileRepo } = 
   const languages = [...votes.values()].map((v) => ({ ...v, share: v.share / voteSum })).sort((a, b) => b.share - a.share);
 
   const own = gh.repos.filter((r) => !r.fork);
-  const quests = own.filter((r) => r.name.toLowerCase() !== String(profileRepo || gh.login).toLowerCase()).slice(0, 3);
+  const quests = own.filter((r) => r.name.toLowerCase() !== String(profileRepo || gh.login).toLowerCase()).slice(0, 4);
+
+  // How many public repositories use each language at all (the inventory's item counts).
+  const langRepos = {};
+  for (const r of own) for (const l of r.languages) langRepos[l.name] = (langRepos[l.name] || 0) + 1;
+
+  const years = Math.floor((Date.parse(`${today}T12:00:00Z`) - Date.parse(gh.createdAt)) / (365.2425 * 864e5));
 
   // XP: one per contribution, ever. Level n -> n+1 costs 20n XP.
   const xp = gh.allTime;
@@ -159,7 +178,9 @@ export function computeStats(gh, { today, ignoreLanguages = [], profileRepo } = 
     stars: own.reduce((s, r) => s + r.stars, 0),
     followers: gh.followers,
     since: Number(gh.createdAt.slice(0, 4)),
+    years: Math.max(0, years),
     languages,
+    langRepos,
     quests,
     xp, level, xpInto: xp - floor, xpNeed: 20 * level,
   };

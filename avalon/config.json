@@ -7,5 +7,26 @@
   "lat": 38.7223,
   "lon": -9.1393,
   "timezone": "Europe/Lisbon",
-  "ignoreLanguages": []
+  "ignoreLanguages": [],
+  "views": "Ninjagamedev",
+  "inventory": [
+    "unity",
+    "love",
+    "csharp",
+    "c",
+    "java",
+    "python",
+    "lua",
+    "javascript",
+    "php",
+    "html",
+    "css",
+    "bootstrap",
+    "mysql",
+    "git",
+    "linux",
+    "vscode",
+    "discord",
+    "linkedin"
+  ]
 }

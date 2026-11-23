@@ -182,6 +182,7 @@ export const ICONS = {
   rune: { rows: ['.SSSSS.', 'SsscssS', 'SscCcsS', 'SsCCCsS', 'SscCcsS', 'SsscssS', '.SSSSS.'], map: { S: '#5a5b82', s: '#7a7ca2', c: '#2fa6b8', C: '#b8fbff' } },
   flame: { rows: ['...r...', '..rr...', '..rOr..', '.rOYOr.', '.rOYOr.', '..rOr..', '.aaaaa.'], map: { r: '#e0442a', O: '#ff8a2a', Y: '#fff1a8', a: '#d9ae42' } },
   helm: { rows: ['.LGGG.', 'LGGGGD', 'GEVVED', 'GVVVVD', 'GDDDDD', '.G..D.', '......'], map: { L: '#dde3ef', G: '#a2abc0', D: '#606882', V: '#141230', E: '#62e6f0' } },
+  eye: { rows: ['.......', '..WWW..', '.WwCwW.', 'WwCKCwW', '.WwCwW.', '..WWW..', '.......'], map: { W: '#e9e6ff', w: '#9a94c9', C: '#62e6f0', K: '#141230' } },
   star: { rows: ['...Y...', '..YYY..', 'YYYYYYY', '.YYYYY.', '..YYY..', '.YY.YY.', '.Y...Y.'], map: { Y: '#f2d27a' } },
   head: { rows: ['....LGGG....', '..LGGGGGGGD.', '.GVVVVVVVVD.', '.GVEEVVEEVD.', 'LGVEEVVEEVDG', 'LGDDDDDDDDDG'], map: { L: '#f7dc84', G: '#e6bd4e', D: '#b2892c', V: '#141230', E: '#6fdca0' } },
 };
