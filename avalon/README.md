@@ -36,9 +36,9 @@ The trees change with the seasons, and a few dates bring their own surprises.
   languages, followers. Nothing private reaches the image.
 - **[Open-Meteo](https://open-meteo.com/)**: the current weather at the place in `config.json`.
 - **[Profile views counter](https://github.com/antonkomarev/github-profile-views-counter)**:
-  the profile README loads it as an invisible pixel, which counts each visit. The workflow
-  reads the number for the scene. A read counts as a visit too, so every read is tallied in
-  `state.json` and subtracted.
+  the profile README loads it as an invisible pixel, which counts each visit (the counter
+  only counts requests from GitHub's image proxy). The workflow reads the number for the
+  scene; if the counter is down, the last count from `state.json` is kept.
 
 The sun and moon positions and the moon phase are computed locally (`src/astro.mjs`).
 The [workflow](../.github/workflows/avalon.yml) runs every 30 minutes and publishes
@@ -53,8 +53,7 @@ stops for visitors who ask their system for reduced motion.
 GITHUB_TOKEN=$(gh auth token) node avalon/generate.mjs --out dist --offline
 ```
 
-`--offline` skips the weather and the visitor counter (so a local run doesn't count as a
-visit). Preview another time, weather or visitor count (WMO weather codes: 0 clear,
+`--offline` skips the weather and the visitor counter. Preview another time, weather or visitor count (WMO weather codes: 0 clear,
 2 partly cloudy, 3 overcast, 45 fog, 61/63/65 rain, 73 snow, 95 thunderstorm):
 
 ```sh

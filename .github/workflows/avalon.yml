@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 22
 
-      # The last published state carries the visitor tally between runs.
+      # The last published state: its visitor count is kept if the counter is down.
       - name: Recall the last watch
         run: |
           git fetch -q --depth=1 origin output && git show FETCH_HEAD:state.json > "$RUNNER_TEMP/prev-state.json" || echo "No earlier watch to recall."

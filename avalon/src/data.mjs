@@ -105,8 +105,8 @@ export async function fetchWeather({ lat, lon, timezone }) {
 
 /**
  * Profile views from the komarev counter. The README shows the same counter
- * as an invisible pixel, which is what counts each visit. Reading the number
- * here counts one view too, so the caller subtracts its own reads.
+ * as an invisible pixel, which is what counts each visit: the counter only
+ * counts requests from GitHub's image proxy, so reading it here adds nothing.
  */
 export async function fetchViews(username) {
   const res = await fetch(`https://komarev.com/ghpvc/?username=${encodeURIComponent(username)}&style=flat`, { headers: { 'User-Agent': UA } });

@@ -7,7 +7,7 @@
 //   node avalon/generate.mjs --save-data gh.json  keep the fetched GitHub data
 //   node avalon/generate.mjs --at 2026-12-24T22:30:00Z --weather 61 --temp 9 --wind 25 --wind-dir 270 --cloud 80
 //                                                 preview another time or weather (WMO weather codes)
-//   node avalon/generate.mjs --prev state.json    the last published state.json (keeps the visitor count honest)
+//   node avalon/generate.mjs --prev state.json    the last published state.json (its visitor count is the fallback)
 //   node avalon/generate.mjs --visitors 1234      preview a visitor count without reading the counter
 //
 // GITHUB_TOKEN (or GH_TOKEN) must be set when fetching live GitHub data.
@@ -68,19 +68,17 @@ for (const [flag, key] of [['weather', 'code'], ['temp', 'temp'], ['wind', 'wind
   if (args[flag] !== undefined) weather = { ...(weather || {}), [key]: Number(args[flag]) };
 }
 
-// Visitors. Reading the counter counts as a visit, so every read is tallied
-// in state.json ("self") and taken off again. Offline runs reuse the last count.
+// Visitors. If the counter can't be read (or the run is offline), the last
+// published count stands in.
 let prev = null;
 if (args.prev) {
-  try { prev = JSON.parse(await readFile(args.prev, 'utf8')); } catch { console.warn('No previous state; starting the visitor tally fresh.'); }
+  try { prev = JSON.parse(await readFile(args.prev, 'utf8')); } catch { console.warn('No previous state to fall back on.'); }
 }
-let views = prev?.views?.count != null ? { ...prev.views } : null;
-if (args.visitors !== undefined) views = { count: Number(args.visitors), self: 0 };
+let views = prev?.views?.count != null ? { count: prev.views.count } : null;
+if (args.visitors !== undefined) views = { count: Number(args.visitors) };
 else if (!args.offline && cfg.views) {
   try {
-    const raw = await fetchViews(cfg.views);
-    const self = (prev?.views?.self ?? 0) + 1;
-    views = { count: Math.max(0, raw - self), raw, self };
+    views = { count: await fetchViews(cfg.views) };
   } catch (e) { console.warn(`Visitor count unavailable (${e.message}); keeping the last one.`); }
 }
 
