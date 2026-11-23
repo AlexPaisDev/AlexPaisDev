@@ -82,30 +82,39 @@ export function drawPanel(c, w) {
 }
 
 // --- character card ------------------------------------------------------------
-// line 1: name ............................................ LEVEL n
-// line 2: class · region   XP [=========-----] a/b      ON GITHUB SINCE y
+// line 1: name        XP [=========-----] a/b        LEVEL n
+// line 2: class · region ...................... ON GITHUB SINCE y
 function card(r, s, p) {
-  text(r, p.name, 9, L.name, { font: 'big', color: (row) => CHROME[row], outline: '#05061a' });
+  const nameEnd = 9 + text(r, p.name, 9, L.name, { font: 'big', color: (row) => CHROME[row], outline: '#05061a' });
   const lv = String(s.level), lvW = measure(lv, { font: 'big' });
   text(r, lv, W - 9 - lvW, L.name, { font: 'big', color: (row) => CHROME[row], outline: '#05061a' });
-  text(r, 'LEVEL', W - 9 - lvW - 5 - measure('LEVEL'), L.name + 2, { color: GOLD });
+  const lvX = W - 9 - lvW - 5 - measure('LEVEL');
+  text(r, 'LEVEL', lvX, L.name + 2, { color: GOLD });
 
+  // class line: drop the region, then shorten "since", if the title is long
   const y2 = L.sub;
-  let x = 9 + text(r, `${p.title} · ${p.region}`, 9, y2, { color: GOLD2 }) + 8;
-  x += text(r, 'XP', x, y2, { color: INK3 }) + 4;
-  const since = `ON GITHUB SINCE ${s.since}`, sinceX = W - 9 - measure(since);
-  text(r, since, sinceX, y2, { color: INK3 });
+  let since = `ON GITHUB SINCE ${s.since}`;
+  let cls = `${p.title} · ${p.region}`;
+  if (measure(cls) + 10 + measure(since) > W - 18) cls = p.title;
+  if (measure(cls) + 10 + measure(since) > W - 18) since = `SINCE ${s.since}`;
+  text(r, fit(cls, W - 18 - 10 - measure(since)), 9, y2, { color: GOLD2 });
+  text(r, since, W - 9 - measure(since), y2, { color: INK3 });
+
+  // XP bar between the name and the level, centred on the big text
+  const yb = L.name + 1;
+  let x = nameEnd + 10;
+  x += text(r, 'XP', x, yb, { color: INK3 }) + 4;
   const xpTxt = `${s.xpInto}/${s.xpNeed}`;
-  const barW = Math.max(30, sinceX - 10 - measure(xpTxt) - 5 - x);
-  r.rect(x, y2, barW, 5, LINE);
-  r.rect(x + 1, y2 + 1, barW - 2, 3, '#1b1742');
+  const barW = Math.max(24, lvX - 10 - measure(xpTxt) - 5 - x);
+  r.rect(x, yb, barW, 5, LINE);
+  r.rect(x + 1, yb + 1, barW - 2, 3, '#1b1742');
   const fill = Math.round(((barW - 2) * s.xpInto) / s.xpNeed);
-  if (fill > 0) { r.rect(x + 1, y2 + 1, fill, 3, GOLD2); r.rect(x + 1, y2 + 1, fill, 1, GOLD); r.rect(x + 1, y2 + 3, fill, 1, '#b2892c'); }
+  if (fill > 0) { r.rect(x + 1, yb + 1, fill, 3, GOLD2); r.rect(x + 1, yb + 1, fill, 1, GOLD); r.rect(x + 1, yb + 3, fill, 1, '#b2892c'); }
   for (let i = 1; i < 10; i++) {
     const at = Math.round(((barW - 2) * i) / 10);
-    r.set(x + 1 + at, y2 + 2, fill > at ? '#b2892c' : '#2a2a58');
+    r.set(x + 1 + at, yb + 2, fill > at ? '#b2892c' : '#2a2a58');
   }
-  text(r, xpTxt, x + barW + 5, y2, { color: INK2 });
+  text(r, xpTxt, x + barW + 5, yb, { color: INK2 });
 }
 
 // --- stats and quest log -------------------------------------------------------
