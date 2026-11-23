@@ -1,26 +1,40 @@
-![](https://komarev.com/ghpvc/?username=Ninjagamedev&color=red&style=for-the-badge)
+<div align="center">
 
-```js
-export default Hello {
-  name: 'Alexandre Pais',
-  level: '24',
-  country: 'Portugal',
-  technologies:{
-    gameDev: ['Unity', 'LÖVE'],
-    programmingLanguages: ['C', 'C#', 'Java', 'Python', 'Lua'],
-    webDev: ['HTML', 'CSS', 'Javascript', 'PHP'],
-    database: ['mysql'],
-  }
-}
-```
-![d74b6737ae912d33bba82f3a4dcc4a30](https://github.com/Ninjagamedev/Ninjagamedev/assets/128500270/f2c994dc-a16b-498b-8742-6828f3561f6d)
+<img src="https://raw.githubusercontent.com/AlexPaisDev/AlexPaisDev/output/avalon.svg" width="840" alt="Avalon, a live pixel-art isle: the time of day and weather in Lisbon right now, my contribution calendar carved as glowing runes in the castle wall, and an RPG status panel with my GitHub stats.">
 
-  [![](https://raw.githubusercontent.com/Ninjagamedev/Ninjagamedev/main/profile-summary-card-output/tokyonight/0-profile-details.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-  [![](https://raw.githubusercontent.com/Ninjagamedev/Ninjagamedev/main/profile-summary-card-output/tokyonight/1-repos-per-language.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-  [![](https://raw.githubusercontent.com/Ninjagamedev/Ninjagamedev/main/profile-summary-card-output/tokyonight/2-most-commit-language.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-  [![](https://raw.githubusercontent.com/Ninjagamedev/Ninjagamedev/main/profile-summary-card-output/tokyonight/3-stats.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards) 
-  [![](https://raw.githubusercontent.com/Ninjagamedev/Ninjagamedev/main/profile-summary-card-output/tokyonight/4-productive-time.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-  
-<p align="left">
-  <img src="https://skillicons.dev/icons?i=c,java,unity,html,css,bootstrap,mysql,git,linux,linkedin,discord,unity,vscode,lua,python">
-</p>
+</div>
+
+<details>
+<summary><b>How to read the isle</b></summary>
+<br>
+
+The scene is redrawn every 30 minutes by a GitHub Action from the live weather in Lisbon and my public GitHub data. Everything is drawn pixel by pixel in [`avalon/`](avalon), with no image assets.
+
+| In the scene | What it shows |
+|---|---|
+| Sky, sun and moon | The real time of day in Lisbon, with the sun and moon where they actually are and the real moon phase |
+| Clouds, rain, snow, fog, thunder | The current weather |
+| Windmill, flag and banners | They turn and wave with the real wind speed and direction |
+| **The Rune Wall** | My contribution calendar for the last year: one stone per day, glowing brighter on busier days. Today's stone blinks |
+| **The beacon** on the keep | My contributions in the last 7 days. It burns bigger the more I ship and goes cold after a quiet week |
+| **Banners** | My most-used languages across public repositories |
+| **Allies** on the battlements | My followers |
+| **The guardian's eyes** | Green: active this week. Amber: quiet for over a week. Red: away for over a month |
+| Chimney smoke, lit windows, torches | Lit when it's cold, or once the sun goes down |
+| Level and XP | One XP per contribution, ever |
+
+The trees change with the seasons, and a few dates bring their own surprises.
+
+</details>
+
+<div align="center">
+
+**Game developer from Portugal** · Unity & LÖVE · C, C#, Java, Python, Lua · web with HTML, CSS, JavaScript and PHP
+
+<img src="https://skillicons.dev/icons?i=c,java,unity,html,css,bootstrap,mysql,git,linux,linkedin,discord,vscode,lua,python" alt="C, Java, Unity, HTML, CSS, Bootstrap, MySQL, Git, Linux, LinkedIn, Discord, VS Code, Lua, Python">
+
+<br><br>
+
+<img src="https://komarev.com/ghpvc/?username=Ninjagamedev&style=flat-square&color=e6bd4e&label=VISITORS+TO+AVALON" alt="Profile views">
+
+</div>
