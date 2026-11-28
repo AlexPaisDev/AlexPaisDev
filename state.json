@@ -1,0 +1,111 @@
+{
+  "renderedAt": "2026-11-28T12:52:08.817Z",
+  "local": {
+    "y": 2026,
+    "m": 11,
+    "d": 28,
+    "hh": 12,
+    "mm": 52,
+    "iso": "2026-11-28",
+    "time": "12:52",
+    "label": "SAT 28 NOV"
+  },
+  "phase": "day",
+  "season": "autumn",
+  "event": null,
+  "sun": {
+    "alt": 29.65362893188163,
+    "az": 187.3563492202062
+  },
+  "moon": {
+    "alt": -12.534105988994797,
+    "az": 313.4974114112413,
+    "name": "WANING GIBBOUS",
+    "illum": 0.8409746800460525
+  },
+  "weather": {
+    "code": 3,
+    "temp": 15.2,
+    "cloud": 99,
+    "wind": 6.2,
+    "windDir": 97,
+    "precip": 0,
+    "isDay": true,
+    "time": "2026-11-28T12:45",
+    "kind": "overcast",
+    "level": 0,
+    "label": "OVERCAST",
+    "missing": false
+  },
+  "wind": {
+    "dir": 1,
+    "speed": 6.2,
+    "cls": 1
+  },
+  "mood": "ok",
+  "beacon": 3,
+  "dialog": [
+    "GREY SKIES OVER LISBON, 15°C. THE GULLS STAY HOME.",
+    "2 NEW RUNES CARVED TODAY. THE BEACON BURNS BRIGHT.",
+    "WELCOME, TRAVELLER! 589 HAVE VISITED AVALON BEFORE YOU."
+  ],
+  "views": {
+    "count": 589
+  },
+  "stats": {
+    "current": 3,
+    "longest": 3,
+    "sinceLast": 0,
+    "last7": 15,
+    "todayCount": 2,
+    "yearTotal": 113,
+    "repoCount": 19,
+    "stars": 0,
+    "followers": 9,
+    "since": 2023,
+    "years": 3,
+    "languages": [
+      {
+        "name": "Python",
+        "color": "#3572A5",
+        "share": 0.2062826084622689
+      },
+      {
+        "name": "C",
+        "color": "#555555",
+        "share": 0.18750000000000003
+      },
+      {
+        "name": "JavaScript",
+        "color": "#f1e05a",
+        "share": 0.18289441689526964
+      },
+      {
+        "name": "HTML",
+        "color": "#e34c26",
+        "share": 0.09375883360942268
+      },
+      {
+        "name": "PHP",
+        "color": "#4F5D95",
+        "share": 0.08393852543886153
+      },
+      {
+        "name": "Java",
+        "color": "#b07219",
+        "share": 0.06250000000000001
+      }
+    ],
+    "quests": [
+      "AlexPaisDev.github.io",
+      "clawd-storm-guard",
+      "CustomHomePage",
+      "claude-usage-buddy"
+    ],
+    "xp": 290,
+    "level": 5,
+    "xpInto": 90,
+    "xpNeed": 100,
+    "views": 589
+  }
+}
